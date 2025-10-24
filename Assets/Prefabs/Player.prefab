@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc045d0486be13b68e551d69e015637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathParticleSystem: {fileID: 8550269121203602627, guid: 2504862a68e3cfc519f56b57fe3e2e05, type: 3}
   forceMultipler: 24
   maximumVelocity: 24

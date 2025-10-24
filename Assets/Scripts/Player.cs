@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public ParticleSystem deathParticleSystem;
     public float forceMultipler = 12f;
     public float maximumVelocity = 5f;
     private Rigidbody rb;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
 	if (collision.gameObject.CompareTag("Hazard"))     {
 	    GameManager.GameOver();
 	    Destroy(gameObject);
+	    Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
 	}
     }
 }
