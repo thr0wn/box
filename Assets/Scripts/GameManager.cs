@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject hazardPrefab;
     public int maxHazardsToSpawn = 3;
-    public TMPro.TextMeshPro scoreText;
+    public TMPro.TextMeshProUGUI scoreText;
     public int score;
     public float time = 0;
+    public Image backgroundMenu;
     private static bool gameOver;
     
     void Start()
@@ -19,6 +21,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            if(Time.timeScale == 0) {
+                Time.timeScale = 1f;
+                backgroundMenu.gameObject.SetActive(false);
+            } else {
+                Time.timeScale = 0f;
+                backgroundMenu.gameObject.SetActive(true);
+            }
+        }
         if (gameOver)
         {
             return;
@@ -40,7 +51,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i <= hazardsToSpawn; i++)
         {
             var x = Random.Range(-6, 6);
-	    var z = player.GetComponent<Transform>().position.z;
+            var z = player.GetComponent<Transform>().position.z;
             var drag = Random.Range(0f, 2f);
             var hazard = Instantiate(hazardPrefab, new Vector3(x, 12, z), Quaternion.identity);
             hazard.GetComponent<Rigidbody>().drag = drag;
