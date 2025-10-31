@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa9cb374164c01c4a33bde53caf865e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakingEffect: {fileID: 4514019826538313201, guid: 05e8a3e415fde88538e9e230e1a48edb, type: 3}
 --- !u!54 &6564853575232042804
 Rigidbody:
   m_ObjectHideFlags: 0

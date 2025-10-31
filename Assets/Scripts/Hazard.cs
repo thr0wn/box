@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Hazard : MonoBehaviour
 {
+    public ParticleSystem breakingEffect;
     Vector3 rotation;
 
     void Start()
@@ -21,6 +22,7 @@ public class Hazard : MonoBehaviour
     {
 	if (!collision.gameObject.CompareTag("Hazard"))    {
 	  Destroy(gameObject);
+	  Instantiate(breakingEffect, transform.position, Quaternion.identity);
 	}
     }
 }

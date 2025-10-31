@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public TMPro.TextMeshPro scoreText;
     public int score;
     public float time = 0;
-    private static bool gameOver; 
+    private static bool gameOver;
     
     void Start()
     {
