@@ -21,8 +21,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
         var x = Input.GetAxis("Horizontal");
-        if (rb.velocity.magnitude <= maximumVelocity) {
+        if (rb.velocity.magnitude <= maximumVelocity)
+        {
             rb.AddForce(new Vector3(x * forceMultipler * Time.deltaTime, 0, 0));
         }
     }

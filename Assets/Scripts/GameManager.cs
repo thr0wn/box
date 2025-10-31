@@ -13,10 +13,18 @@ public class GameManager : MonoBehaviour
     public float time = 0;
     public Image backgroundMenu;
     private static bool gameOver;
-    
+
+    private static GameManager instance;
+    public static GameManager Instance => instance;
+
     void Start()
     {
+        instance = this;
         StartCoroutine(SpawnHazards());
+    }
+
+    public void Enable() {
+        gameObject.SetActive(true);
     }
 
     private void Update()
@@ -44,7 +52,7 @@ public class GameManager : MonoBehaviour
             time = 0;
         }
     }
-    
+
     private IEnumerator SpawnHazards()
     {
         var hazardsToSpawn = Random.Range(1, maxHazardsToSpawn);
