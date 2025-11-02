@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,19 +13,20 @@ public class GameManager : MonoBehaviour
     public int score;
     public float time = 0;
     public Image backgroundMenu;
-    private static bool gameOver;
+    private static GameManager Instance;
+    private static bool Running = false;
+    private CinemachineImpulseSource cinemachineImpulseSource;
+    public GameObject mainVCam;
+    public GameObject zoomVCam;
 
-    private static GameManager instance;
-    public static GameManager Instance => instance;
+    private static Coroutine SpawnRoutine;
 
-    void Start()
+    public GameObject gameOverMenu;
+
+    void Awake()
     {
-        instance = this;
-        StartCoroutine(SpawnHazards());
-    }
-
-    public void Enable() {
-        gameObject.SetActive(true);
+        Instance = this;
+        cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Update()
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
                 backgroundMenu.gameObject.SetActive(true);
             }
         }
-        if (gameOver)
+        if (!Running)
         {
             return;
         }
@@ -65,12 +67,41 @@ public class GameManager : MonoBehaviour
             hazard.GetComponent<Rigidbody>().drag = drag;
         }
         yield return new WaitForSeconds(1f);
-       
+
         yield return SpawnHazards();
     }
 
-    public static void GameOver()
+    public void RunInstance() {
+        gameObject.SetActive(true);
+        player.SetActive(true);
+        mainVCam.SetActive(true);
+        zoomVCam.SetActive(false);
+        Running = true;
+        score = 0;
+        SpawnRoutine = StartCoroutine(SpawnHazards());
+    }
+
+    public static void Run() {
+        Instance.RunInstance();
+    }
+
+    private void StopInstance()
     {
-        gameOver = true;
+        Running = false;
+        player.SetActive(false);
+        cinemachineImpulseSource.GenerateImpulse();
+        mainVCam.SetActive(false);
+        zoomVCam.SetActive(true);
+        gameOverMenu.GetComponent<GameOver>().ReEnter();
+        StopCoroutine(SpawnRoutine);
+    }
+
+    public static void Stop() {
+        Instance.StopInstance();
+    }
+
+
+    public static bool IsRunning() {
+        return Running;
     }
 }

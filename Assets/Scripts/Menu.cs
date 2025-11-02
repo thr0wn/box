@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-    public GameManager gameManager;
-
-    public void Start()
+    public void Awake()
     {
         GetComponentInChildren<TMPro.TextMeshProUGUI>()
             .gameObject
@@ -23,7 +21,7 @@ public class Menu : MonoBehaviour
 
     private void OnComplete()
     {
-        gameManager.Enable();
-        Destroy(gameObject);
+        GameManager.Run();
+        gameObject.SetActive(false);
     }
 }
