@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
         mainVCam.SetActive(true);
         zoomVCam.SetActive(false);
+        gameOverMenu.SetActive(false);
         Running = true;
         score = 0;
         SpawnRoutine = StartCoroutine(SpawnHazards());
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
         cinemachineImpulseSource.GenerateImpulse();
         mainVCam.SetActive(false);
         zoomVCam.SetActive(true);
-        gameOverMenu.GetComponent<GameOver>().ReEnter();
+        gameOverMenu.SetActive(true);
         StopCoroutine(SpawnRoutine);
     }
 

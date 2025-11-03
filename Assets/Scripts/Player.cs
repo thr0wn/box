@@ -27,6 +27,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void OnEnable()
+    {
+        gameObject.SetActive(true);
+        gameObject.transform.position = new Vector3(0, gameObject.transform.position.y, gameObject.transform.position.z);
+        rb.velocity = Vector3.zero;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Hazard"))
