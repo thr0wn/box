@@ -10,9 +10,10 @@ public class GameManager : MonoBehaviour
     public GameObject hazardPrefab;
     public int maxHazardsToSpawn = 3;
     public TMPro.TextMeshProUGUI scoreText;
+    private const string highScorePrefsKey = "HighScore";
     public TMPro.TextMeshProUGUI maxScoreText;
     public int score;
-    public int maxScore;
+    public int highScore;
     public float time = 0;
     public Image backgroundMenu;
     private static GameManager Instance;
@@ -29,15 +30,20 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+        highScore = PlayerPrefs.GetInt(highScorePrefsKey);
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            if(Time.timeScale == 0) {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 0)
+            {
                 Time.timeScale = 1f;
                 backgroundMenu.gameObject.SetActive(false);
-            } else {
+            }
+            else
+            {
                 Time.timeScale = 0f;
                 backgroundMenu.gameObject.SetActive(true);
             }
@@ -46,9 +52,9 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-       
+
         time += Time.deltaTime;
-       
+
         if (time >= 1f)
         {
             score++;
@@ -56,10 +62,11 @@ public class GameManager : MonoBehaviour
             time = 0;
         }
 
-        if (score > maxScore)
+        if (score > highScore)
         {
-            maxScore = score;
-            maxScoreText.text = maxScore.ToString();
+            highScore = score;
+            PlayerPrefs.SetInt(highScorePrefsKey, highScore);
+            maxScoreText.text = highScore.ToString();
         }
     }
 
@@ -79,7 +86,8 @@ public class GameManager : MonoBehaviour
         yield return SpawnHazards();
     }
 
-    public void RunInstance() {
+    public void RunInstance()
+    {
         gameObject.SetActive(true);
         player.SetActive(true);
         mainVCam.SetActive(true);
@@ -90,7 +98,8 @@ public class GameManager : MonoBehaviour
         SpawnRoutine = StartCoroutine(SpawnHazards());
     }
 
-    public static void Run() {
+    public static void Run()
+    {
         Instance.RunInstance();
     }
 
@@ -102,15 +111,18 @@ public class GameManager : MonoBehaviour
         mainVCam.SetActive(false);
         zoomVCam.SetActive(true);
         gameOverMenu.SetActive(true);
+        maxScoreText.text = highScore.ToString();
         StopCoroutine(SpawnRoutine);
     }
 
-    public static void Stop() {
+    public static void Stop()
+    {
         Instance.StopInstance();
     }
 
 
-    public static bool IsRunning() {
+    public static bool IsRunning()
+    {
         return Running;
     }
 }
