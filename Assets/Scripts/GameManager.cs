@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject hazardPrefab;
     public int maxHazardsToSpawn = 3;
     public TMPro.TextMeshProUGUI scoreText;
+    public TMPro.TextMeshProUGUI maxScoreText;
     public int score;
+    public int maxScore;
     public float time = 0;
     public Image backgroundMenu;
     private static GameManager Instance;
@@ -52,6 +54,12 @@ public class GameManager : MonoBehaviour
             score++;
             scoreText.text = score.ToString();
             time = 0;
+        }
+
+        if (score > maxScore)
+        {
+            maxScore = score;
+            maxScoreText.text = maxScore.ToString();
         }
     }
 

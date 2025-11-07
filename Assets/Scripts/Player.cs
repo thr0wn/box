@@ -7,9 +7,11 @@ public class Player : MonoBehaviour
     public ParticleSystem deathParticleSystem;
     public float forceMultipler = 12f;
     public float maximumVelocity = 5f;
+    public float minimumY = -2f;
+    public const float initialY = 2.25f;
     private Rigidbody rb;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
@@ -25,21 +27,30 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(new Vector3(x * forceMultipler * Time.deltaTime, 0, 0));
         }
+        if (transform.position.y < minimumY)
+        {
+            DeAct();
+        }
     }
 
     public void OnEnable()
     {
         gameObject.SetActive(true);
-        gameObject.transform.position = new Vector3(0, gameObject.transform.position.y, gameObject.transform.position.z);
+        gameObject.transform.position = new Vector3(0, initialY, gameObject.transform.position.z);
         rb.velocity = Vector3.zero;
+    }
+
+    private void DeAct()
+    {
+        GameManager.Stop();
+        Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Hazard"))
         {
-            GameManager.Stop();
-            Instantiate(deathParticleSystem, transform.position, Quaternion.identity);
+            DeAct();
         }
     }
 }
